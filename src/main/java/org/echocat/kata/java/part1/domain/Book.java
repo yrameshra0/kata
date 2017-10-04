@@ -41,6 +41,6 @@ public class Book extends Publication
     @Override
     public String toString()
     {
-        return String.format("%s;%s", super.toString(), description);
+        return String.format("%s\t%s", super.toString(), description);
     }
 }

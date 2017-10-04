@@ -14,6 +14,7 @@ import org.echocat.kata.java.part1.domain.Author;
 import org.echocat.kata.java.part1.domain.Book;
 import org.echocat.kata.java.part1.domain.Magazine;
 import org.echocat.kata.java.part1.domain.Publication;
+import org.echocat.kata.java.part1.exception.InformationNotFoundException;
 
 public class AuthorsWithPublicationsRepository
 {
@@ -69,7 +70,7 @@ public class AuthorsWithPublicationsRepository
         return allPublication.stream()
             .filter(publication -> publication.isbn.equals(isbn))
             .findFirst()
-            .get();
+            .orElseThrow(() -> new InformationNotFoundException(String.format("No data found with ISBN : %s", isbn)));
     }
 
 

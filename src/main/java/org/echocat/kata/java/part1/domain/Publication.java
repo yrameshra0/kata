@@ -48,6 +48,6 @@ public abstract class Publication
     public String toString()
     {
         String authorFormatted = authors.stream().collect(Collectors.joining(","));
-        return String.format("%s;%s;%s", title, isbn, authorFormatted);
+        return String.format("%s\t%s\t%s", title, isbn, authorFormatted);
     }
 }

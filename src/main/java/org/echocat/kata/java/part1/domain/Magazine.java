@@ -20,6 +20,6 @@ public class Magazine extends Publication
     @Override
     public String toString()
     {
-        return String.format("%s;%s", super.toString(), publishedAt.format(MAGAZINE_DATE_FORMATTER));
+        return String.format("%s\t%s", super.toString(), publishedAt.format(MAGAZINE_DATE_FORMATTER));
     }
 }
