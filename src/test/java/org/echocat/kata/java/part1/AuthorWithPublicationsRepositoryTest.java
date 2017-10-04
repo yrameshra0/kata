@@ -3,6 +3,7 @@ package org.echocat.kata.java.part1;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.fail;
 
 import java.util.Arrays;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 import org.echocat.kata.java.part1.domain.Book;
 import org.echocat.kata.java.part1.domain.Magazine;
 import org.echocat.kata.java.part1.domain.Publication;
+import org.echocat.kata.java.part1.exception.InformationNotFoundException;
 import org.junit.Test;
 
 public class AuthorWithPublicationsRepositoryTest
@@ -46,6 +48,21 @@ public class AuthorWithPublicationsRepositoryTest
     {
         assertThat(repository.findByISBN("2221-5548-8585"), is(ANY_BOOK));
         assertThat(repository.findByISBN("2365-8745-7854"), is(ANY_MAGAZINE));
+    }
+
+
+    @Test
+    public void throws_exception_for_missing_isbn() throws Exception
+    {
+        try
+        {
+            repository.findByISBN("UNKNOWN");
+            fail("Expecting InformationNotFoundException exception");
+        }
+        catch (InformationNotFoundException e)
+        {
+            assertThat(e.getMessage(), is("No data found with ISBN : UNKNOWN"));
+        }
     }
 
 
