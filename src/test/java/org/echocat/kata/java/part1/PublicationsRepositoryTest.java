@@ -14,10 +14,10 @@ import org.echocat.kata.java.part1.domain.Publication;
 import org.echocat.kata.java.part1.exception.InformationNotFoundException;
 import org.junit.Test;
 
-public class AuthorWithPublicationsRepositoryTest
+public class PublicationsRepositoryTest
 {
 
-    private PublicationsRepository repository = new PublicationsRepository();
+    private PublicationsRepository repository = new CSVPublicationRepositoryInteractor();
     private static final Book ANY_BOOK = new Book(
         "Das Perfekte Dinner. Die besten Rezepte",
         "2221-5548-8585",

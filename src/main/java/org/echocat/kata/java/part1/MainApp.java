@@ -56,7 +56,7 @@ public class MainApp
 
     public static void main(String[] args) throws IOException
     {
-        PublicationsRepository repository = new PublicationsRepository();
+        PublicationsRepository repository = new CSVPublicationRepositoryInteractor();
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.print(ConsoleOptions.formattedOptions());
