@@ -17,13 +17,13 @@ public class AuthorWithPublicationsRepositoryTest
 {
 
     private AuthorsWithPublicationsRepository repository = new AuthorsWithPublicationsRepository();
-    private final Book book = new Book(
+    private static final Book ANY_BOOK = new Book(
         "Das Perfekte Dinner. Die besten Rezepte",
         "2221-5548-8585",
         Arrays.asList("null-lieblich@echocat.org"),
         "Sie wollen auch ein perfektes Dinner kreieren? Mit diesem Buch gelingt es Ihnen!");
 
-    private final Magazine magazine = new Magazine(
+    private static final Magazine ANY_MAGAZINE = new Magazine(
         "Gourmet",
         "2365-8745-7854",
         Arrays.asList("null-ferdinand@echocat.org"),
@@ -37,16 +37,16 @@ public class AuthorWithPublicationsRepositoryTest
     {
         List<Publication> allPublications = repository.findAllPublications();
         assertThat(allPublications.size(), is(14));
-        assertThat(allPublications, hasItem(book));
-        assertThat(allPublications, hasItem(magazine));
+        assertThat(allPublications, hasItem(ANY_BOOK));
+        assertThat(allPublications, hasItem(ANY_MAGAZINE));
     }
 
 
     @Test
     public void find_book_by_isbn() throws Exception
     {
-        assertThat(repository.findByISBN("2221-5548-8585"), is(book));
-        assertThat(repository.findByISBN("2365-8745-7854"), is(magazine));
+        assertThat(repository.findByISBN("2221-5548-8585"), is(ANY_BOOK));
+        assertThat(repository.findByISBN("2365-8745-7854"), is(ANY_MAGAZINE));
     }
 
 
@@ -55,7 +55,7 @@ public class AuthorWithPublicationsRepositoryTest
     {
         List<Publication> publications = repository.findByAuthor("null-lieblich@echocat.org");
         assertThat(publications.size(), is(4));
-        assertThat(publications, hasItem(book));
+        assertThat(publications, hasItem(ANY_BOOK));
     }
 
 
