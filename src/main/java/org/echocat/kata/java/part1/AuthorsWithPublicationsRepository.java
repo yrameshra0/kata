@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -21,26 +21,9 @@ public class AuthorsWithPublicationsRepository
     private static final String AUTHORS_CSV = "org/echocat/kata/java/part1/data/authors.csv";
     private static final String BOOKS_CSV = "org/echocat/kata/java/part1/data/books.csv";
     private static final String MAGAZINES_CSV = "org/echocat/kata/java/part1/data/magazines.csv";
-    public static final String CSV_SPLITTER = ";";
-    public static final String AUTHOR_SPLITTER = ",";
-    public static final DateTimeFormatter MAGAZINE_DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-
-
-    public Publication findByISBN(String isbn)
-    {
-        return allPublication.stream()
-            .filter(publication -> publication.isbn.equals(isbn))
-            .findFirst()
-            .get();
-    }
-
-
-    public Collection<Publication> findByAuthor(String authorEmailId)
-    {
-        return allPublication.stream()
-            .filter(publication -> publication.authors.contains(authorEmailId))
-            .collect(Collectors.toList());
-    }
+    private static final String CSV_SPLITTER = ";";
+    private static final String AUTHOR_SPLITTER = ",";
+    private static final DateTimeFormatter MAGAZINE_DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     private interface Parser<T>
     {
@@ -93,8 +76,33 @@ public class AuthorsWithPublicationsRepository
     };
 
 
-    public Collection<Publication> findAllPublications()
+    public List<Publication> findAllPublications()
     {
         return allPublication;
+    }
+
+
+    public Publication findByISBN(String isbn)
+    {
+        return allPublication.stream()
+            .filter(publication -> publication.isbn.equals(isbn))
+            .findFirst()
+            .get();
+    }
+
+
+    public List<Publication> findByAuthor(String authorEmailId)
+    {
+        return allPublication.stream()
+            .filter(publication -> publication.authors.contains(authorEmailId))
+            .collect(Collectors.toList());
+    }
+
+
+    public List<Publication> findAllPublicationsSortedByTitle()
+    {
+        return allPublication.stream()
+            .sorted(Comparator.comparing(publication -> publication.title))
+            .collect(Collectors.toList());
     }
 }

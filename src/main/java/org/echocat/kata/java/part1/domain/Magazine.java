@@ -23,6 +23,6 @@ public class Magazine extends Publication
             ", isbn='" + isbn + '\'' +
             ", publishedAt=" + publishedAt +
             ", authors=" + authors +
-            "} " + super.toString();
+            "} ";
     }
 }

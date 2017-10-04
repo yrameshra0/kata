@@ -6,7 +6,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.List;
 
 import org.echocat.kata.java.part1.domain.Book;
 import org.echocat.kata.java.part1.domain.Magazine;
@@ -35,7 +35,7 @@ public class AuthorWithPublicationsRepositoryTest
     @Test
     public void find_all_publications() throws Exception
     {
-        Collection<Publication> allPublications = repository.findAllPublications();
+        List<Publication> allPublications = repository.findAllPublications();
         assertThat(allPublications.size(), is(14));
         assertThat(allPublications, hasItem(book));
         assertThat(allPublications, hasItem(magazine));
@@ -53,8 +53,31 @@ public class AuthorWithPublicationsRepositoryTest
     @Test
     public void find_all_publications_for_authors() throws Exception
     {
-        Collection<Publication> publications = repository.findByAuthor("null-lieblich@echocat.org");
+        List<Publication> publications = repository.findByAuthor("null-lieblich@echocat.org");
         assertThat(publications.size(), is(4));
         assertThat(publications, hasItem(book));
+    }
+
+
+    @Test
+    public void find_all_publications_sorted_by_title() throws Exception
+    {
+        List<Publication> allPublications = repository.findAllPublicationsSortedByTitle();
+        Publication firstPublication = allPublications.get(0);
+        Publication lastPublication = allPublications.get(allPublications.size() - 1);
+
+        Publication expectedFirstPublication = new Magazine(
+            "Beautiful cooking",
+            "5454-5587-3210",
+            Arrays.asList("null-walter@echocat.org"),
+            LocalDate.of(2011, 5, 21));
+        Publication expectedLastPublication = new Magazine(
+            "Vinum",
+            "1313-4545-8875",
+            Arrays.asList("null-gustafsson@echocat.org"),
+            LocalDate.of(2012, 2, 23));
+
+        assertThat(firstPublication, is(expectedFirstPublication));
+        assertThat(lastPublication, is(expectedLastPublication));
     }
 }

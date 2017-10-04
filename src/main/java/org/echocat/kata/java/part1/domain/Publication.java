@@ -3,7 +3,7 @@ package org.echocat.kata.java.part1.domain;
 import java.util.List;
 import java.util.Objects;
 
-public class Publication
+public abstract class Publication
 {
     public final String title;
     public final String isbn;

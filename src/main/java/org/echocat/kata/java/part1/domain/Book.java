@@ -46,6 +46,6 @@ public class Book extends Publication
             ", description='" + description + '\'' +
             ", isbn='" + isbn + '\'' +
             ", authors=" + authors +
-            "} " + super.toString();
+            "} ";
     }
 }
