@@ -56,7 +56,7 @@ public class MainApp
 
     public static void main(String[] args) throws IOException
     {
-        AuthorsWithPublicationsRepository repository = new AuthorsWithPublicationsRepository();
+        PublicationsRepository repository = new PublicationsRepository();
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.print(ConsoleOptions.formattedOptions());

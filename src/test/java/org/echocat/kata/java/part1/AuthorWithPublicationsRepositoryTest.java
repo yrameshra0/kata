@@ -17,7 +17,7 @@ import org.junit.Test;
 public class AuthorWithPublicationsRepositoryTest
 {
 
-    private AuthorsWithPublicationsRepository repository = new AuthorsWithPublicationsRepository();
+    private PublicationsRepository repository = new PublicationsRepository();
     private static final Book ANY_BOOK = new Book(
         "Das Perfekte Dinner. Die besten Rezepte",
         "2221-5548-8585",

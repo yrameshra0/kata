@@ -3,7 +3,7 @@ package org.echocat.kata.java.part1.domain;
 import java.util.List;
 import java.util.Objects;
 
-public class Book extends Publication
+public final class Book extends Publication
 {
     public final String description;
 

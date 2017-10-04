@@ -12,26 +12,22 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.echocat.kata.java.part1.domain.Author;
 import org.echocat.kata.java.part1.domain.Book;
 import org.echocat.kata.java.part1.domain.Magazine;
 import org.echocat.kata.java.part1.domain.Publication;
 import org.echocat.kata.java.part1.exception.InformationNotFoundException;
 
-public class AuthorsWithPublicationsRepository
+public class PublicationsRepository
 {
-    private static final String AUTHORS_CSV = "org/echocat/kata/java/part1/data/authors.csv";
     private static final String BOOKS_CSV = "org/echocat/kata/java/part1/data/books.csv";
     private static final String MAGAZINES_CSV = "org/echocat/kata/java/part1/data/magazines.csv";
     private static final String CSV_SPLITTER = ";";
     private static final String AUTHOR_SPLITTER = ",";
-    private final List<Author> authors;
     private final List<Publication> allPublication;
 
 
-    public AuthorsWithPublicationsRepository()
+    public PublicationsRepository()
     {
-        this.authors = parseData(BOOKS_CSV, authorParser);
         this.allPublication = Stream.concat(
             parseData(BOOKS_CSV, bookParser).stream(),
             parseData(MAGAZINES_CSV, magazineParser).stream())
@@ -50,7 +46,6 @@ public class AuthorsWithPublicationsRepository
         return parsedData;
     }
 
-    private Function<String[], Author> authorParser = (components) -> new Author(components[0], components[1], components[2]);
     private Function<String[], Book> bookParser = (components) -> new Book(components[0], components[1], parseAuthors(components[2]), components[3]);
     private Function<String[], Magazine> magazineParser = (components) -> new Magazine(components[0], components[1], parseAuthors(components[2]), components[3]);
 
