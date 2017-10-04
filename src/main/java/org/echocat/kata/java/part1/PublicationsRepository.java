@@ -28,14 +28,14 @@ public class PublicationsRepository
     public PublicationsRepository()
     {
         this.allPublication = Stream.concat(
-            parseData(BOOKS_CSV, bookInstanceCreator).stream(),
-            parseData(MAGAZINES_CSV, magazineInstanceCreator).stream())
+            parseData(BOOKS_CSV, bookInstanceCreator),
+            parseData(MAGAZINES_CSV, magazineInstanceCreator))
             .collect(Collectors.toList());
 
     }
 
 
-    private <T> List<T> parseData(String fileName, Function<String[], T> newInstanceCreator)
+    private <T> Stream<T> parseData(String fileName, Function<String[], T> newInstanceCreator)
     {
         InputStreamReader dataStream = new InputStreamReader(ClassLoader.getSystemResourceAsStream(fileName));
         BufferedReader dataReader = new BufferedReader(dataStream);
@@ -43,8 +43,7 @@ public class PublicationsRepository
             .lines()
             .skip(1)
             .map(csvString -> csvString.split(CSV_SPLITTER))
-            .map(newInstanceCreator)
-            .collect(Collectors.toList());
+            .map(newInstanceCreator);
     }
 
     private Function<String[], Book> bookInstanceCreator = (components) -> new Book(components[0], components[1], parseAuthors(components[2]), components[3]);
