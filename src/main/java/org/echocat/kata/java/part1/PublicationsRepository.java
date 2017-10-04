@@ -29,25 +29,25 @@ public class PublicationsRepository
     public PublicationsRepository()
     {
         this.allPublication = Stream.concat(
-            parseData(BOOKS_CSV, bookParser).stream(),
-            parseData(MAGAZINES_CSV, magazineParser).stream())
+            parseData(BOOKS_CSV, bookInstanceCreator).stream(),
+            parseData(MAGAZINES_CSV, magazineInstanceCreator).stream())
             .collect(Collectors.toList());
 
     }
 
 
-    private <T> List<T> parseData(String fileName, Function<String[], T> parser)
+    private <T> List<T> parseData(String fileName, Function<String[], T> newInstanceCreator)
     {
         InputStreamReader dataStream = new InputStreamReader(ClassLoader.getSystemResourceAsStream(fileName));
         List<String> data = new BufferedReader(dataStream).lines().skip(1).collect(Collectors.toList());
         List<T> parsedData = new ArrayList<>(data.size());
-        data.forEach(csvString -> parsedData.add(parser.apply(csvString.split(CSV_SPLITTER))));
+        data.forEach(csvString -> parsedData.add(newInstanceCreator.apply(csvString.split(CSV_SPLITTER))));
 
         return parsedData;
     }
 
-    private Function<String[], Book> bookParser = (components) -> new Book(components[0], components[1], parseAuthors(components[2]), components[3]);
-    private Function<String[], Magazine> magazineParser = (components) -> new Magazine(components[0], components[1], parseAuthors(components[2]), components[3]);
+    private Function<String[], Book> bookInstanceCreator = (components) -> new Book(components[0], components[1], parseAuthors(components[2]), components[3]);
+    private Function<String[], Magazine> magazineInstanceCreator = (components) -> new Magazine(components[0], components[1], parseAuthors(components[2]), components[3]);
 
 
     private List<String> parseAuthors(String authorRaw)
