@@ -1,5 +1,7 @@
 package org.echocat.kata.java.part1;
 
+import static java.util.Collections.unmodifiableList;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -61,7 +63,7 @@ public class AuthorsWithPublicationsRepository
 
     public List<Publication> findAllPublications()
     {
-        return allPublication;
+        return unmodifiableList(allPublication);
     }
 
 
