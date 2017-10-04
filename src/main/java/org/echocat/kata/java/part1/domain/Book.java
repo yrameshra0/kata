@@ -41,11 +41,6 @@ public class Book extends Publication
     @Override
     public String toString()
     {
-        return "Book{" +
-            "title='" + title + '\'' +
-            ", description='" + description + '\'' +
-            ", isbn='" + isbn + '\'' +
-            ", authors=" + authors +
-            "} ";
+        return String.format("%s;%s", super.toString(), description);
     }
 }

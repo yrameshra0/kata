@@ -2,12 +2,11 @@ package org.echocat.kata.java.part1;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -23,13 +22,6 @@ public class AuthorsWithPublicationsRepository
     private static final String MAGAZINES_CSV = "org/echocat/kata/java/part1/data/magazines.csv";
     private static final String CSV_SPLITTER = ";";
     private static final String AUTHOR_SPLITTER = ",";
-    private static final DateTimeFormatter MAGAZINE_DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-
-    private interface Parser<T>
-    {
-        T apply(String[] components);
-    }
-
     private final List<Author> authors;
     private final List<Publication> allPublication;
 
@@ -45,7 +37,7 @@ public class AuthorsWithPublicationsRepository
     }
 
 
-    private <T> List<T> parseData(String fileName, Parser<T> parser)
+    private <T> List<T> parseData(String fileName, Function<String[], T> parser)
     {
         InputStreamReader dataStream = new InputStreamReader(ClassLoader.getSystemResourceAsStream(fileName));
         List<String> data = new BufferedReader(dataStream).lines().skip(1).collect(Collectors.toList());
@@ -55,25 +47,15 @@ public class AuthorsWithPublicationsRepository
         return parsedData;
     }
 
-    private Parser<Author> authorParser = (components) -> new Author(components[0], components[1], components[2]);
+    private Function<String[], Author> authorParser = (components) -> new Author(components[0], components[1], components[2]);
+    private Function<String[], Book> bookParser = (components) -> new Book(components[0], components[1], parseAuthors(components[2]), components[3]);
+    private Function<String[], Magazine> magazineParser = (components) -> new Magazine(components[0], components[1], parseAuthors(components[2]), components[3]);
 
-    private Parser<Book> bookParser = (components) -> {
-        String title = components[0];
-        String isbn = components[1];
-        List<String> authors = Arrays.asList(components[2].split(AUTHOR_SPLITTER));
-        String description = components[3];
 
-        return new Book(title, isbn, authors, description);
-    };
-
-    private Parser<Magazine> magazineParser = (components) -> {
-        String title = components[0];
-        String isbn = components[1];
-        List<String> authors = Arrays.asList(components[2].split(AUTHOR_SPLITTER));
-        LocalDate publishedAt = LocalDate.parse(components[3], MAGAZINE_DATE_FORMATTER);
-
-        return new Magazine(title, isbn, authors, publishedAt);
-    };
+    private List<String> parseAuthors(String authorRaw)
+    {
+        return Arrays.asList(authorRaw.split(AUTHOR_SPLITTER));
+    }
 
 
     public List<Publication> findAllPublications()

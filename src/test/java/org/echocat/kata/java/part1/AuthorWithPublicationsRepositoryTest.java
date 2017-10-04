@@ -4,7 +4,6 @@ import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,7 +26,7 @@ public class AuthorWithPublicationsRepositoryTest
         "Gourmet",
         "2365-8745-7854",
         Arrays.asList("null-ferdinand@echocat.org"),
-        LocalDate.of(2010, 6, 14)
+        "14.06.2010"
 
     );
 
@@ -70,12 +69,12 @@ public class AuthorWithPublicationsRepositoryTest
             "Beautiful cooking",
             "5454-5587-3210",
             Arrays.asList("null-walter@echocat.org"),
-            LocalDate.of(2011, 5, 21));
+            "21.05.2011");
         Publication expectedLastPublication = new Magazine(
             "Vinum",
             "1313-4545-8875",
             Arrays.asList("null-gustafsson@echocat.org"),
-            LocalDate.of(2012, 2, 23));
+            "23.02.2012");
 
         assertThat(firstPublication, is(expectedFirstPublication));
         assertThat(lastPublication, is(expectedLastPublication));

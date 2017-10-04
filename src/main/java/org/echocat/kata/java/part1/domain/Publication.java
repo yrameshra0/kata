@@ -2,6 +2,7 @@ package org.echocat.kata.java.part1.domain;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public abstract class Publication
 {
@@ -40,5 +41,13 @@ public abstract class Publication
     public int hashCode()
     {
         return Objects.hash(title, isbn, authors);
+    }
+
+
+    @Override
+    public String toString()
+    {
+        String authorFormatted = authors.stream().collect(Collectors.joining(","));
+        return String.format("%s;%s;%s", title, isbn, authorFormatted);
     }
 }
