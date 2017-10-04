@@ -48,4 +48,13 @@ public class AuthorWithPublicationsRepositoryTest
         assertThat(repository.findByISBN("2221-5548-8585"), is(book));
         assertThat(repository.findByISBN("2365-8745-7854"), is(magazine));
     }
+
+
+    @Test
+    public void find_all_publications_for_authors() throws Exception
+    {
+        Collection<Publication> publications = repository.findByAuthor("null-lieblich@echocat.org");
+        assertThat(publications.size(), is(4));
+        assertThat(publications, hasItem(book));
+    }
 }

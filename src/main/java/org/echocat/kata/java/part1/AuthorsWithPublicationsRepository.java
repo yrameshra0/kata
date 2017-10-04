@@ -34,6 +34,14 @@ public class AuthorsWithPublicationsRepository
             .get();
     }
 
+
+    public Collection<Publication> findByAuthor(String authorEmailId)
+    {
+        return allPublication.stream()
+            .filter(publication -> publication.authors.contains(authorEmailId))
+            .collect(Collectors.toList());
+    }
+
     private interface Parser<T>
     {
         T apply(String[] components);
