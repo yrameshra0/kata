@@ -6,7 +6,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Collection;
 
 import org.echocat.kata.java.part1.domain.Book;
 import org.echocat.kata.java.part1.domain.Magazine;
@@ -35,9 +35,17 @@ public class AuthorWithPublicationsRepositoryTest
     @Test
     public void find_all_publications() throws Exception
     {
-        List<Publication> allPublications = repository.findAllPublications();
+        Collection<Publication> allPublications = repository.findAllPublications();
         assertThat(allPublications.size(), is(14));
         assertThat(allPublications, hasItem(book));
         assertThat(allPublications, hasItem(magazine));
+    }
+
+
+    @Test
+    public void find_book_by_isbn() throws Exception
+    {
+        assertThat(repository.findByISBN("2221-5548-8585"), is(book));
+        assertThat(repository.findByISBN("2365-8745-7854"), is(magazine));
     }
 }

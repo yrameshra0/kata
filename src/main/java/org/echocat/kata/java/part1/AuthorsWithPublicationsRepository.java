@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -24,21 +25,32 @@ public class AuthorsWithPublicationsRepository
     public static final String AUTHOR_SPLITTER = ",";
     public static final DateTimeFormatter MAGAZINE_DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
+
+    public Publication findByISBN(String isbn)
+    {
+        return allPublication.stream()
+            .filter(publication -> publication.isbn.equals(isbn))
+            .findFirst()
+            .get();
+    }
+
     private interface Parser<T>
     {
         T apply(String[] components);
     }
 
     private final List<Author> authors;
-    private final List<Book> books;
-    private final List<Magazine> magazines;
+    private final List<Publication> allPublication;
 
 
     public AuthorsWithPublicationsRepository()
     {
         this.authors = parseData(BOOKS_CSV, authorParser);
-        this.books = parseData(BOOKS_CSV, bookParser);
-        this.magazines = parseData(MAGAZINES_CSV, magazineParser);
+        this.allPublication = Stream.concat(
+            parseData(BOOKS_CSV, bookParser).stream(),
+            parseData(MAGAZINES_CSV, magazineParser).stream())
+            .collect(Collectors.toList());
+
     }
 
 
@@ -73,8 +85,8 @@ public class AuthorsWithPublicationsRepository
     };
 
 
-    public List<Publication> findAllPublications()
+    public Collection<Publication> findAllPublications()
     {
-        return Stream.concat(books.stream(), magazines.stream()).collect(Collectors.toList());
+        return allPublication;
     }
 }
