@@ -4,7 +4,6 @@ import static java.util.Collections.unmodifiableList;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -39,11 +38,13 @@ public class PublicationsRepository
     private <T> List<T> parseData(String fileName, Function<String[], T> newInstanceCreator)
     {
         InputStreamReader dataStream = new InputStreamReader(ClassLoader.getSystemResourceAsStream(fileName));
-        List<String> data = new BufferedReader(dataStream).lines().skip(1).collect(Collectors.toList());
-        List<T> parsedData = new ArrayList<>(data.size());
-        data.forEach(csvString -> parsedData.add(newInstanceCreator.apply(csvString.split(CSV_SPLITTER))));
-
-        return parsedData;
+        BufferedReader dataReader = new BufferedReader(dataStream);
+        return dataReader
+            .lines()
+            .skip(1)
+            .map(csvString -> csvString.split(CSV_SPLITTER))
+            .map(newInstanceCreator)
+            .collect(Collectors.toList());
     }
 
     private Function<String[], Book> bookInstanceCreator = (components) -> new Book(components[0], components[1], parseAuthors(components[2]), components[3]);
